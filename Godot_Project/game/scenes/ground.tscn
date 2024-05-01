@@ -1,14 +1,14 @@
 [gd_scene load_steps=4 format=3 uid="uid://duamj7iynvb5p"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rhaxh"]
-size = Vector3(70, 2, 70)
+size = Vector3(80, 2, 80)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6t8of"]
 albedo_color = Color(0, 0.423529, 0.0509804, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_h62p7"]
 material = SubResource("StandardMaterial3D_6t8of")
-size = Vector3(70, 2, 70)
+size = Vector3(80, 2, 80)
 
 [node name="ground" type="StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.36848, 0)

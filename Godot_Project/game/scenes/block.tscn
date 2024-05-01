@@ -1,4 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://ck3laf1w5e5gp"]
+[gd_scene load_steps=5 format=3 uid="uid://ck3laf1w5e5gp"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_10yo5"]
+bounce = 10.0
+absorbent = true
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_nwc8n"]
 data = PackedVector3Array(-1, 1, 1, 1, 1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, 1, 1, 1, -1, 1, -1, -1, 1, -1, 1, -1, 1, -1, -1, 1, 1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, -1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, 1, 1, -1, -1, -1, -1, -1)
@@ -11,6 +15,7 @@ material = SubResource("StandardMaterial3D_n66i3")
 size = Vector3(2, 2, 2)
 
 [node name="block" type="StaticBody3D"]
+physics_material_override = SubResource("PhysicsMaterial_10yo5")
 
 [node name="block_collision" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)

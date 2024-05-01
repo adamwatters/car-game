@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://addons/godot_vision/vision_volume_camera.gd" id="1_bqg8h"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_t2vsb"]
-size = Vector3(75, 50, 75)
+size = Vector3(85, 50, 85)
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_6ppar"]
 sun_disk_scale = 21.2
@@ -29,7 +29,7 @@ script = ExtResource("1_bqg8h")
 shape = SubResource("BoxShape3D_t2vsb")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, -6.15973e-16, 2.24196e-16, 2.08743e-16, 0.623457, 0.781858, -6.2138e-16, -0.781858, 0.623457, 0, 4.00146, 36.2323)
+transform = Transform3D(1, -6.15973e-16, 2.24196e-16, 1.14334e-16, 0.50068, 0.865632, -6.45457e-16, -0.865632, 0.50068, 0, 13.7214, 38.6826)
 environment = SubResource("Environment_x2d02")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
