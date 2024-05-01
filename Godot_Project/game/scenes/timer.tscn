@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://cx7ttumhl2kag"]
+
+[ext_resource type="Script" path="res://game/scripts/timer.gd" id="1_40rxq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4puq2"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="TextMesh" id="TextMesh_andf8"]
+material = SubResource("StandardMaterial3D_4puq2")
+text = "0
+"
+font_size = 42
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3bumd"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_sje40"]
+material = SubResource("StandardMaterial3D_3bumd")
+size = Vector3(1, 1, 0.1)
+
+[node name="timer" type="Node3D"]
+script = ExtResource("1_40rxq")
+
+[node name="text_mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0458763)
+mesh = SubResource("TextMesh_andf8")
+
+[node name="background_mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_sje40")
+
+[node name="timer" type="Timer" parent="."]

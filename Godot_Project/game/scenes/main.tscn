@@ -1,0 +1,95 @@
+[gd_scene load_steps=11 format=3 uid="uid://vts2xl0t0xub"]
+
+[ext_resource type="Script" path="res://game/scripts/main.gd" id="1_wijai"]
+[ext_resource type="PackedScene" uid="uid://biunegs8tkvn0" path="res://addons/godot_vision/VisionVolumeCamera.tscn" id="2_782u8"]
+[ext_resource type="PackedScene" uid="uid://duamj7iynvb5p" path="res://game/scenes/ground.tscn" id="3_1k7qb"]
+[ext_resource type="PackedScene" uid="uid://3e4cnsua5to3" path="res://game/scenes/car.tscn" id="4_2yor3"]
+[ext_resource type="PackedScene" uid="uid://d28y24tqdgu7a" path="res://game/scenes/ramp.tscn" id="5_6l1ny"]
+[ext_resource type="PackedScene" uid="uid://xfgc18qj8upx" path="res://game/scenes/checkpoint.tscn" id="6_0xtaa"]
+[ext_resource type="PackedScene" uid="uid://bcenn14raunpo" path="res://game/scenes/reset_button.tscn" id="7_m7myl"]
+[ext_resource type="PackedScene" uid="uid://cx7ttumhl2kag" path="res://game/scenes/timer.tscn" id="8_yagke"]
+[ext_resource type="PackedScene" uid="uid://ck3laf1w5e5gp" path="res://game/scenes/block.tscn" id="9_qj4p0"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_b4knc"]
+
+[node name="main" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0050149, -0.00658166, 0.00135791)
+script = ExtResource("1_wijai")
+
+[node name="VisionVolumeCamera" parent="." instance=ExtResource("2_782u8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 24.8029, 0)
+
+[node name="ground" parent="." instance=ExtResource("3_1k7qb")]
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_b4knc")
+
+[node name="car" parent="." instance=ExtResource("4_2yor3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -73.799, 9.03526, 0)
+
+[node name="ramp" parent="." instance=ExtResource("5_6l1ny")]
+collision_mask = 0
+
+[node name="start" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.7887, 6.01056, 17.7907)
+
+[node name="checkpoint" parent="start" instance=ExtResource("6_0xtaa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.65059, 0)
+order_index = 3
+
+[node name="checkpoint" parent="." instance=ExtResource("6_0xtaa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.1728, 3.81207, -17.3512)
+
+[node name="checkpoint2" parent="." instance=ExtResource("6_0xtaa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.9747, 3.81207, -17.3512)
+order_index = 1
+
+[node name="checkpoint3" parent="." instance=ExtResource("6_0xtaa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5036, 3.81207, 23.3616)
+order_index = 2
+
+[node name="reset_button" parent="." instance=ExtResource("7_m7myl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.5023, 5.28841, 28.4414)
+
+[node name="timer" parent="." instance=ExtResource("8_yagke")]
+transform = Transform3D(1.45674, 0.790177, -1.11961, -1.72205e-16, 1.63403, 1.15324, 1.37037, -0.839983, 1.19018, 27.3927, 4.45497, 29.6568)
+
+[node name="blocks" type="Node3D" parent="."]
+
+[node name="block" parent="blocks" instance=ExtResource("9_qj4p0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.1309, 4.36848, 15.2119)
+
+[node name="block2" parent="blocks" instance=ExtResource("9_qj4p0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.5366, 4.36848, 11.4701)
+
+[node name="block3" parent="blocks" instance=ExtResource("9_qj4p0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.8796, 4.36848, 8.12276)
+
+[node name="block4" parent="blocks" instance=ExtResource("9_qj4p0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.4861, 4.36848, 8.12276)
+
+[node name="block5" parent="blocks" instance=ExtResource("9_qj4p0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.91327, 4.36848, 11.8371)
+
+[node name="block6" parent="blocks" instance=ExtResource("9_qj4p0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.2144, 4.36848, 15.2368)
+
+[node name="block7" parent="blocks" instance=ExtResource("9_qj4p0")]
+transform = Transform3D(0.985847, 0, 0.167646, 0, 1, 0, -0.167646, 0, 0.985847, -20.5208, 4.36848, 4.27313)
+
+[node name="block8" parent="blocks" instance=ExtResource("9_qj4p0")]
+transform = Transform3D(0.985847, 0, 0.167646, 0, 1, 0, -0.167646, 0, 0.985847, -21.548, 4.36848, 0.652285)
+
+[node name="block9" parent="blocks" instance=ExtResource("9_qj4p0")]
+transform = Transform3D(0.985847, 0, 0.167646, 0, 1, 0, -0.167646, 0, 0.985847, -22.4473, 4.36848, -2.59014)
+
+[node name="block10" parent="blocks" instance=ExtResource("9_qj4p0")]
+transform = Transform3D(0.985847, 0, 0.167646, 0, 1, 0, -0.167646, 0, 0.985847, -13.1869, 4.36848, -4.16491)
+
+[node name="block11" parent="blocks" instance=ExtResource("9_qj4p0")]
+transform = Transform3D(0.985847, 0, 0.167646, 0, 1, 0, -0.167646, 0, 0.985847, -11.9994, 4.36848, -0.599176)
+
+[node name="block12" parent="blocks" instance=ExtResource("9_qj4p0")]
+transform = Transform3D(0.985847, 0, 0.167646, 0, 1, 0, -0.167646, 0, 0.985847, -11.7264, 4.36848, 2.8029)
+
+[node name="block13" parent="blocks" instance=ExtResource("9_qj4p0")]
+transform = Transform3D(0.985847, 0, 0.167646, 0, 1, 0, -0.167646, 0, 0.985847, -10.6582, 4.36848, 4.99189)

@@ -1,18 +1,6 @@
-[gd_scene load_steps=28 format=3 uid="uid://vts2xl0t0xub"]
+[gd_scene load_steps=18 format=3 uid="uid://3e4cnsua5to3"]
 
-[ext_resource type="PackedScene" uid="uid://biunegs8tkvn0" path="res://addons/godot_vision/VisionVolumeCamera.tscn" id="1_3lu4e"]
-[ext_resource type="Script" path="res://examples/hello/example_godot_vision_scene.gd" id="1_86dss"]
-[ext_resource type="Script" path="res://examples/hello/car.gd" id="5_luf6i"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_rhaxh"]
-size = Vector3(70, 2, 70)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6t8of"]
-albedo_color = Color(0, 0.290196, 0.0431373, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_h62p7"]
-material = SubResource("StandardMaterial3D_6t8of")
-size = Vector3(70, 2, 70)
+[ext_resource type="Script" path="res://game/scripts/car.gd" id="1_uufld"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qpfll"]
 bounce = 0.1
@@ -333,154 +321,57 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_45umt")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uurtd"]
-resource_name = "Material"
-cull_mode = 2
-albedo_color = Color(0.906332, 0.906332, 0.906332, 1)
-roughness = 0.5
+[node name="car" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+script = ExtResource("1_uufld")
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_hsxpe"]
-_surfaces = [{
-"aabb": AABB(-3, -1, -3, 5.42876, 2, 4),
-"format": 34896613377,
-"index_count": 36,
-"index_data": PackedByteArray(0, 0, 6, 0, 4, 0, 0, 0, 2, 0, 6, 0, 3, 0, 6, 0, 2, 0, 3, 0, 7, 0, 6, 0, 7, 0, 4, 0, 6, 0, 7, 0, 5, 0, 4, 0, 5, 0, 3, 0, 1, 0, 5, 0, 7, 0, 3, 0, 1, 0, 2, 0, 0, 0, 1, 0, 3, 0, 2, 0, 5, 0, 0, 0, 4, 0, 5, 0, 1, 0, 0, 0),
-"name": "Material",
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 8,
-"vertex_data": PackedByteArray(78, 251, 67, 6, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 78, 251, 67, 6, 255, 255, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0)
-}]
-blend_shape_mode = 0
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_ah2v7"]
-resource_name = "ramp_Cube"
-_surfaces = [{
-"aabb": AABB(-3, -1, -3, 5.42876, 2, 4),
-"attribute_data": PackedByteArray(255, 159, 255, 127, 255, 159, 255, 127, 255, 159, 255, 127, 255, 95, 255, 127, 255, 95, 255, 127, 255, 95, 255, 127, 255, 159, 255, 63, 255, 159, 255, 63, 255, 159, 255, 63, 255, 95, 255, 63, 255, 95, 255, 63, 255, 95, 255, 63, 255, 159, 255, 191, 255, 159, 255, 191, 255, 223, 255, 127, 255, 31, 255, 127, 255, 95, 255, 191, 255, 95, 255, 191, 255, 159, 0, 0, 255, 159, 255, 255, 255, 223, 255, 63, 255, 31, 255, 63, 255, 95, 0, 0, 255, 95, 255, 255),
-"format": 34896613399,
-"index_count": 36,
-"index_data": PackedByteArray(1, 0, 20, 0, 14, 0, 1, 0, 7, 0, 20, 0, 10, 0, 18, 0, 6, 0, 10, 0, 22, 0, 18, 0, 23, 0, 12, 0, 19, 0, 23, 0, 16, 0, 12, 0, 15, 0, 9, 0, 3, 0, 15, 0, 21, 0, 9, 0, 5, 0, 8, 0, 2, 0, 5, 0, 11, 0, 8, 0, 17, 0, 0, 0, 13, 0, 17, 0, 4, 0, 0, 0),
-"material": SubResource("StandardMaterial3D_uurtd"),
-"name": "Material",
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 24,
-"vertex_data": PackedByteArray(78, 251, 67, 6, 0, 0, 255, 255, 78, 251, 67, 6, 0, 0, 233, 245, 78, 251, 67, 6, 0, 0, 223, 242, 255, 255, 0, 0, 0, 0, 255, 191, 255, 255, 0, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 223, 242, 78, 251, 67, 6, 255, 255, 91, 237, 78, 251, 67, 6, 255, 255, 233, 245, 78, 251, 67, 6, 255, 255, 223, 242, 255, 255, 0, 0, 255, 255, 255, 191, 255, 255, 0, 0, 255, 255, 101, 201, 255, 255, 0, 0, 255, 255, 223, 242, 0, 0, 255, 255, 0, 0, 84, 213, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0, 233, 245, 0, 0, 0, 0, 0, 0, 255, 191, 0, 0, 0, 0, 0, 0, 84, 213, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 255, 255, 255, 255, 14, 192, 0, 0, 255, 255, 255, 255, 84, 213, 0, 0, 255, 255, 255, 255, 233, 245, 0, 0, 0, 0, 255, 255, 255, 191, 0, 0, 0, 0, 255, 255, 255, 191, 0, 0, 0, 0, 255, 255, 84, 213, 10, 157, 243, 226, 201, 58, 108, 10, 83, 57, 88, 13, 0, 0, 255, 127, 43, 152, 211, 231, 83, 57, 88, 13, 255, 255, 255, 255, 201, 58, 108, 10, 83, 57, 88, 13, 0, 0, 255, 127, 255, 255, 255, 255, 83, 57, 88, 13, 84, 213, 84, 213, 255, 191, 255, 191, 201, 58, 108, 10, 0, 0, 255, 127, 84, 213, 84, 213, 212, 191, 42, 192, 255, 255, 255, 255, 84, 213, 84, 213, 201, 58, 108, 10, 0, 0, 255, 127, 255, 255, 255, 255, 84, 213, 84, 213)
-}]
-blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_hsxpe")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bgdk5"]
-albedo_color = Color(0.682353, 0.654902, 0.180392, 1)
-
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_blhbk"]
-data = PackedVector3Array(2.3293, -0.9511, -3, -3, 1, 1, -3, 1, -3, 2.3293, -0.9511, -3, 2.3293, -0.9511, 1, -3, 1, 1, 2.4288, -1, 1, -3, 1, 1, 2.3293, -0.9511, 1, 2.4288, -1, 1, -3, -1, 1, -3, 1, 1, -3, -1, 1, -3, 1, -3, -3, 1, 1, -3, -1, 1, -3, -1, -3, -3, 1, -3, -3, -1, -3, 2.4288, -1, 1, 2.4288, -1, -3, -3, -1, -3, -3, -1, 1, 2.4288, -1, 1, 2.4288, -1, -3, 2.3293, -0.9511, 1, 2.3293, -0.9511, -3, 2.4288, -1, -3, 2.4288, -1, 1, 2.3293, -0.9511, 1, -3, -1, -3, 2.3293, -0.9511, -3, -3, 1, -3, -3, -1, -3, 2.4288, -1, -3, 2.3293, -0.9511, -3)
-
-[node name="Example GodotVision Scene" type="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0050149, -0.00658166, 0.00135791)
-script = ExtResource("1_86dss")
-
-[node name="VisionVolumeCamera" parent="." instance=ExtResource("1_3lu4e")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 24.8029, 0)
-
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.36848, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("BoxShape3D_rhaxh")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
-mesh = SubResource("BoxMesh_h62p7")
-
-[node name="car_parent" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.14132, 0)
-
-[node name="car" type="RigidBody3D" parent="car_parent"]
+[node name="car_physics" type="RigidBody3D" parent="."]
 visible = false
+collision_layer = 2
 input_ray_pickable = false
 physics_material_override = SubResource("PhysicsMaterial_qpfll")
+gravity_scale = 2.0
 angular_damp = 2.0
-script = ExtResource("5_luf6i")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="car_parent/car"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="car_physics"]
 shape = SubResource("SphereShape3D_7ilpm")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="car_parent/car"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="car_physics"]
 mesh = SubResource("SphereMesh_fdam6")
 
-[node name="car_mesh" type="Node3D" parent="car_parent"]
+[node name="car_mesh" type="Node3D" parent="."]
 
-[node name="car_mesh_inner" type="Node3D" parent="car_parent/car_mesh"]
+[node name="car_mesh_inner" type="Node3D" parent="car_mesh"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -1, 2.08165e-12)
 
-[node name="ambulance" type="Node3D" parent="car_parent/car_mesh/car_mesh_inner"]
+[node name="ambulance" type="Node3D" parent="car_mesh/car_mesh_inner"]
 
-[node name="body" type="MeshInstance3D" parent="car_parent/car_mesh/car_mesh_inner/ambulance"]
+[node name="body" type="MeshInstance3D" parent="car_mesh/car_mesh_inner/ambulance"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 mesh = SubResource("ArrayMesh_w3yb5")
 skeleton = NodePath("")
 
-[node name="wheel_backLeft" type="MeshInstance3D" parent="car_parent/car_mesh/car_mesh_inner/ambulance"]
+[node name="wheel_backLeft" type="MeshInstance3D" parent="car_mesh/car_mesh_inner/ambulance"]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.3, 0.91)
 mesh = SubResource("ArrayMesh_1hv38")
 skeleton = NodePath("")
 
-[node name="wheel_backRight" type="MeshInstance3D" parent="car_parent/car_mesh/car_mesh_inner/ambulance"]
+[node name="wheel_backRight" type="MeshInstance3D" parent="car_mesh/car_mesh_inner/ambulance"]
 transform = Transform3D(0.999722, 0, 0, 0, 0.999722, 0, 0, 0, -0.999722, 0.3, 0.3, 0.91)
 mesh = SubResource("ArrayMesh_1hv38")
 skeleton = NodePath("")
 
-[node name="wheel_frontLeft" type="MeshInstance3D" parent="car_parent/car_mesh/car_mesh_inner/ambulance"]
+[node name="wheel_frontLeft" type="MeshInstance3D" parent="car_mesh/car_mesh_inner/ambulance"]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.3, -1.01)
 mesh = SubResource("ArrayMesh_1hv38")
 skeleton = NodePath("")
 
-[node name="wheel_frontRight" type="MeshInstance3D" parent="car_parent/car_mesh/car_mesh_inner/ambulance"]
+[node name="wheel_frontRight" type="MeshInstance3D" parent="car_mesh/car_mesh_inner/ambulance"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, -1, 0.3, 0.3, -1.01)
 mesh = SubResource("ArrayMesh_1hv38")
 skeleton = NodePath("")
 
-[node name="ground_ray" type="RayCast3D" parent="car_parent/car_mesh/car_mesh_inner"]
+[node name="ground_ray" type="RayCast3D" parent="car_mesh/car_mesh_inner"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.561321, -0.872456)
 exclude_parent = false
 hit_from_inside = true
-
-[node name="StaticBody3D2" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.839218, -8.39745)
-
-[node name="Cube" type="MeshInstance3D" parent="StaticBody3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.16039, 0)
-mesh = SubResource("ArrayMesh_ah2v7")
-skeleton = NodePath("")
-surface_material_override/0 = SubResource("StandardMaterial3D_bgdk5")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.16039, 0)
-shape = SubResource("ConcavePolygonShape3D_blhbk")
-
-[node name="StaticBody3D4" type="StaticBody3D" parent="."]
-transform = Transform3D(-0.5414, 0, 0.840765, 0, 1, 0, -0.840765, 0, -0.5414, -8.43881, -0.760653, -18.5398)
-
-[node name="Cube" type="MeshInstance3D" parent="StaticBody3D4"]
-transform = Transform3D(1, 0, -1.63153e-09, 0, 1, 0, -7.24306e-10, 0, 1, 0, 5.16039, 0)
-mesh = SubResource("ArrayMesh_ah2v7")
-skeleton = NodePath("")
-surface_material_override/0 = SubResource("StandardMaterial3D_bgdk5")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.16039, 0)
-shape = SubResource("ConcavePolygonShape3D_blhbk")
-
-[node name="StaticBody3D3" type="StaticBody3D" parent="."]
-transform = Transform3D(0.98732, -0.158744, 0, 0.158744, 0.98732, 0, 0, 0, 1, 0, -1.26213, 17.3706)
-
-[node name="Cube" type="MeshInstance3D" parent="StaticBody3D3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.16039, 0)
-mesh = SubResource("ArrayMesh_ah2v7")
-skeleton = NodePath("")
-surface_material_override/0 = SubResource("StandardMaterial3D_bgdk5")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.16039, 0)
-shape = SubResource("ConcavePolygonShape3D_blhbk")
