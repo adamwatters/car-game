@@ -13,7 +13,3 @@ func is_active_checkpoint(is_active: bool):
 		flag.position.y = 2.5
 	else:
 		flag.position.y = -10.0
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass

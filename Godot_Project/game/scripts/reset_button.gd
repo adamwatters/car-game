@@ -5,7 +5,7 @@ extends Node3D
 func _ready():
 	button_body.connect("input_event", _handle_input)
 
-func _handle_input(camera, event, position, normal, shape_idx):
+func _handle_input(_camera, event, _position, _normal, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.pressed and get_parent().has_method("reset"):
 			get_parent().reset()

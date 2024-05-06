@@ -10,11 +10,11 @@ extends Node3D
 var look_at_target_y_offset = 0.0
 var lerped_linear_velocity = Vector3(0,0,0)
 
-func go_to_position(position: Vector3):
+func go_to_position(new_position: Vector3):
 	#car.freeze = true
 	#car.angular_velocity = Vector3(0,0,0)
 	#car.linear_velocity = Vector3(0,0,0)
-	car.global_position = position
+	car.global_position = new_position
 	#car.freeze = false
 
 func align_with_y(xform, new_y):

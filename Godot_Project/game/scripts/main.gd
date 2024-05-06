@@ -23,7 +23,7 @@ func _ready():
 	checkpoints = get_tree().get_nodes_in_group("checkpoints")
 	_set_next_checkpoint(0)
 	for checkpoint in checkpoints:
-		checkpoint.connect("body_entered", func(body):
+		checkpoint.connect("body_entered", func(_body):
 			if checkpoint.order_index == next_checkpoint_index:
 				if checkpoint.order_index + 1 == checkpoints.size():
 					var time = timer.stop()

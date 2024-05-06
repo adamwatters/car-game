@@ -26,6 +26,3 @@ func _handle_tick():
 	time_elapsed += 1
 	text_mesh.mesh.text = "%s" % time_elapsed
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
