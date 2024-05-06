@@ -1,15 +1,16 @@
 extends Node3D
+
 @onready var text_mesh = $text_mesh
 @onready var timer = $timer
 @export var initial_time = 0
+
 var time_elapsed: int
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	text_mesh.mesh.text = "%s" % initial_time
 	time_elapsed = initial_time
 	timer.start()
 	timer.connect("timeout", _handle_tick)
-	pass # Replace with function body.
 
 func reset():
 	timer.stop()

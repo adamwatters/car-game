@@ -1,14 +1,15 @@
 extends Node3D
-@onready var car = $car_physics
-@onready var car_mesh = $car_mesh
-@onready var car_mesh_inner = $car_mesh/car_mesh_inner
-@onready var car_body = $car_mesh/car_mesh_inner/ambulance/body
-@onready var car_wheel_left = $car_mesh/car_mesh_inner/ambulance/wheel_frontLeft
-@onready var car_wheel_right = $car_mesh/car_mesh_inner/ambulance/wheel_frontRight
-@onready var ground_ray = $car_mesh/car_mesh_inner/ground_ray
 
-var look_at_target_y_offset = 0.0
-var lerped_linear_velocity = Vector3(0,0,0)
+@onready var car: RigidBody3D = $car_physics
+@onready var car_mesh: Node3D = $car_mesh
+@onready var car_mesh_inner: Node3D = $car_mesh/car_mesh_inner
+@onready var car_body: MeshInstance3D = $car_mesh/car_mesh_inner/ambulance/body
+@onready var car_wheel_left: MeshInstance3D = $car_mesh/car_mesh_inner/ambulance/wheel_frontLeft
+@onready var car_wheel_right: MeshInstance3D = $car_mesh/car_mesh_inner/ambulance/wheel_frontRight
+@onready var ground_ray: RayCast3D = $car_mesh/car_mesh_inner/ground_ray
+
+var look_at_target_y_offset := 0.0
+var lerped_linear_velocity := Vector3(0,0,0)
 
 func go_to_position(new_position: Vector3):
 	#car.freeze = true
@@ -22,25 +23,24 @@ func align_with_y(xform, new_y):
 	xform.basis.x = -xform.basis.z.cross(new_y)
 	xform.basis = xform.basis.orthonormalized()
 	return xform
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	ground_ray.add_exception(car)
-	pass # Replace with function body.
 
 # Engine power
-const engine_power = 15
-const breaking_power = 5
+const engine_power := 15
+const breaking_power := 5
 
 # Turn amount, in degrees
-const max_steering_angle = 40
+const max_steering_angle := 40
 # How quickly the car turns
-const turn_speed = 2
+const turn_speed := 2
 # Below this speed, the car doesn't turn
-const turn_stop_limit = 0.75
+const turn_stop_limit := 0.75
 
-var is_accelerating = false
-var is_breaking = false
-var steering_angle = 0
+var is_accelerating := false
+var is_breaking := false
+var steering_angle := 0
 
 func _process(delta):
 	
@@ -113,4 +113,6 @@ func _physics_process(delta):
 		if is_breaking:
 			central_force += car_mesh.global_basis.z * 1 * breaking_power
 		car.apply_central_force(central_force)
+		
+
 
