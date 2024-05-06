@@ -9,6 +9,8 @@ extends Node3D
 @onready var car_wheel_right: MeshInstance3D = $car_mesh/car_mesh_inner/ambulance/wheel_frontRight
 @onready var ground_ray: RayCast3D = $car_mesh/car_mesh_inner/ground_ray
 
+@onready var engine_sound: AudioStreamPlayer3D = $engine_sound
+
 var initial_global_position: Vector3 = Vector3.ZERO
 
 var look_at_target_y_offset := 0.0
@@ -89,6 +91,8 @@ func _process(delta):
 	var slerped_quat = base_rotation.slerp(target_rotation, delta * 8).normalized()
 	car_body_parent.global_basis = Basis(slerped_quat)
 	# -------------------
+	
+	engine_sound.pitch_scale = 1.0 + car.linear_velocity.length()
 	
 func _physics_process(delta: float):
 	car_mesh.global_position = car.global_position
