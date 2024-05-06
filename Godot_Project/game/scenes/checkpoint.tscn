@@ -1,18 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://xfgc18qj8upx"]
+[gd_scene load_steps=6 format=3 uid="uid://xfgc18qj8upx"]
 
 [ext_resource type="Script" path="res://game/scripts/checkpoint.gd" id="1_b2x6y"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_733xl"]
-radius = 2.0
+[sub_resource type="BoxShape3D" id="BoxShape3D_hi62o"]
+size = Vector3(9, 4, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2lf1t"]
-transparency = 1
-albedo_color = Color(0.901961, 0.411765, 1, 0.105882)
+[sub_resource type="CylinderMesh" id="CylinderMesh_fqtwf"]
+top_radius = 0.2
+bottom_radius = 0.2
+height = 6.5
 
-[sub_resource type="SphereMesh" id="SphereMesh_er1e5"]
-material = SubResource("StandardMaterial3D_2lf1t")
-radius = 2.0
-height = 4.0
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f2dmj"]
+albedo_color = Color(0.305882, 0.980392, 0.380392, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_5q2v2"]
+material = SubResource("StandardMaterial3D_f2dmj")
+size = Vector3(2, 1, 0.1)
 
 [node name="checkpoint" type="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
@@ -21,7 +24,13 @@ collision_mask = 2
 script = ExtResource("1_b2x6y")
 
 [node name="checkpoint_shape" type="CollisionShape3D" parent="."]
-shape = SubResource("SphereShape3D_733xl")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2, 2.08165e-12)
+shape = SubResource("BoxShape3D_hi62o")
 
-[node name="mesh" type="MeshInstance3D" parent="."]
-mesh = SubResource("SphereMesh_er1e5")
+[node name="pole" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.887236, 0, -0.461315, 0, 1, 0, 0.461315, 0, 0.887236, -4.5, 3.25, 2.08165e-12)
+mesh = SubResource("CylinderMesh_fqtwf")
+
+[node name="flag" type="MeshInstance3D" parent="pole"]
+transform = Transform3D(1, 0, 1.39139e-08, 0, 1, 0, 1.39139e-08, 0, 1, 0.89, 2.5, 2.08165e-12)
+mesh = SubResource("BoxMesh_5q2v2")

@@ -8,15 +8,16 @@ var checkpoints: Array[Node] = []
 var next_checkpoint_index: int
 
 func _setup():
-	car.go_to_position(start.global_position)
+	pass
+	#car.go_to_position(start.global_position)
 
 func _set_next_checkpoint(next_index: int):
 	next_checkpoint_index = next_index
 	for checkpoint in checkpoints:
 		if next_checkpoint_index == checkpoint.order_index:
-			checkpoint.mesh_is_visible(true)
+			checkpoint.is_active_checkpoint(true)
 		else:
-			checkpoint.mesh_is_visible(false)
+			checkpoint.is_active_checkpoint(false)
 			
 func _ready():
 	checkpoints = get_tree().get_nodes_in_group("checkpoints")

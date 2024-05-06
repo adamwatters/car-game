@@ -11,78 +11,103 @@ var look_at_target_y_offset = 0.0
 var lerped_linear_velocity = Vector3(0,0,0)
 
 func go_to_position(position: Vector3):
-	car.freeze = true
-	car.angular_velocity = Vector3(0,0,0)
-	car.linear_velocity = Vector3(0,0,0)
+	#car.freeze = true
+	#car.angular_velocity = Vector3(0,0,0)
+	#car.linear_velocity = Vector3(0,0,0)
 	car.global_position = position
-	car.freeze = false
+	#car.freeze = false
 
+func align_with_y(xform, new_y):
+	xform.basis.y = new_y
+	xform.basis.x = -xform.basis.z.cross(new_y)
+	xform.basis = xform.basis.orthonormalized()
+	return xform
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	ground_ray.add_exception(car)
 	pass # Replace with function body.
 
+# Engine power
+const engine_power = 15
+const breaking_power = 5
+
+# Turn amount, in degrees
+const max_steering_angle = 40
+# How quickly the car turns
+const turn_speed = 2
+# Below this speed, the car doesn't turn
+const turn_stop_limit = 0.75
+
+var is_accelerating = false
+var is_breaking = false
+var steering_angle = 0
+
 func _process(delta):
-	pass
 	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+	# -------------------
+	# capture input
+	
+	is_accelerating = Input.is_action_pressed("ui_select")
+	is_breaking = Input.is_action_pressed("ui_accept")	
+	var turn_input = -1 * Input.get_action_strength("ui_left") + Input.get_action_strength("ui_right")
+	steering_angle = deg_to_rad(turn_input * max_steering_angle)
+	
+	# -------------------
+	# turn the wheels
+	
+	var left_wheel_rotation = car_wheel_left.global_basis.get_rotation_quaternion()
+	# left wheel has rotation in the model - so add PI below
+	var left_wheel_target_rotation = car_mesh.global_basis.rotated(car_mesh.global_basis.y, PI + steering_angle * -1).get_rotation_quaternion()
+	var left_wheel_slerped_quat = left_wheel_rotation.slerp(left_wheel_target_rotation, delta * 8).normalized()
+	car_wheel_left.global_basis = Basis(left_wheel_slerped_quat)
+	
+	var right_wheel_rotation = car_wheel_right.global_basis.get_rotation_quaternion()
+	var right_wheel_target_rotation = car_mesh.global_basis.rotated(car_mesh.global_basis.y, steering_angle * -1).get_rotation_quaternion()
+	var right_wheel_slerped_quat = right_wheel_rotation.slerp(right_wheel_target_rotation, delta * 8).normalized()
+	car_wheel_right.global_basis = Basis(right_wheel_slerped_quat)
+	
+	# -------------------
+	# tilt the body
+	
+	# car.linear_velocity.length() maxes out around 200
+	var tilt_angle = steering_angle * clamp(car.linear_velocity.length_squared() / 400, 0, 0.25)
+	var base_rotation = car_body.global_basis.get_rotation_quaternion()
+	var target_rotation = car_mesh.global_basis.rotated(car_mesh.global_basis.z, tilt_angle).get_rotation_quaternion()
+	var slerped_quat = base_rotation.slerp(target_rotation, delta * 8).normalized()
+	car_body.global_basis = Basis(slerped_quat)
+	# -------------------
+	
 func _physics_process(delta):
-
-	var is_on_ground = ground_ray.is_colliding()
-
-	## acceleration
-	var input_vector = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	var force_vector = input_vector * delta * 1000
-	if is_on_ground:
-		car.apply_central_force(Vector3(force_vector.x, 0, force_vector.y))
-
-	## set the car mesh position
 	car_mesh.global_position = car.global_position
-
-	## handle inclines
-	var n = ground_ray.get_collision_normal()
-	var ground_normal_angle = acos(n.dot(Vector3(0,1,0)))
-	lerped_linear_velocity = lerp(lerped_linear_velocity, car.linear_velocity.normalized(), delta * 10)
-	var look_at_target = car_mesh.global_position + lerped_linear_velocity
-	var y_offset = 0
+	
+	# -------------------
+	# turn the car mesh
+	
+	car_mesh.look_at(car_mesh.global_position + (car.linear_velocity * Vector3(1,0,1) ))
+	# -------------------
+	
+	
+	var x_z_linear_velocity = car.linear_velocity
+	x_z_linear_velocity.y = 0
+	
+	#if not x_z_linear_velocity.is_zero_approx():
+		#car_mesh.look_at(car_mesh.global_position + x_z_linear_velocity) # do this with basis
+	
+	var is_on_ground = ground_ray.is_colliding()
+	
 	if is_on_ground:
-		y_offset = ground_normal_angle * clamp(car.linear_velocity.y, -1, 1) # brings offset back to 0
-		look_at_target_y_offset = lerpf(look_at_target_y_offset, y_offset, delta * 20)
-	else:
-		y_offset = ground_normal_angle * clamp(car.linear_velocity.y, 0, 1)
-		look_at_target_y_offset = lerpf(look_at_target_y_offset, y_offset, delta * 2) #slower adjustment
-		# maybe do something with linear velocity here to tilt back down
-		pass
+		var central_force = Vector3(0,0,0)
+		
+		## stearing angle is decreased at very low speed
+		var adjusted_stearing_angle = steering_angle * clamp(car.linear_velocity.length_squared() / 2, 0, 1)
+		## stearing angle is decreased at very low speed
+		var rotated_linear_velocity = car.linear_velocity.rotated(car_mesh.global_basis.y.normalized(), adjusted_stearing_angle * -1)
+		car.linear_velocity = car.linear_velocity.slerp(rotated_linear_velocity, delta * 2)
+		
+		if is_accelerating:
+			central_force += car_mesh.global_basis.z * -1 * engine_power
+			#central_force += car_mesh.global_basis.rotated(car_mesh.global_basis.y, steering_angle * -1).z * -1 * engine_power
+		if is_breaking:
+			central_force += car_mesh.global_basis.z * 1 * breaking_power
+		car.apply_central_force(central_force)
 
-	look_at_target.y = car_mesh.global_position.y + look_at_target_y_offset
-
-	if not look_at_target.is_equal_approx(car_mesh.global_position):
-		car_mesh.look_at(look_at_target)
-
-	## tilt the body and turn the wheels
-	if not input_vector.is_zero_approx():
-		var linear_velocity_normalized = Vector2(car.linear_velocity.x, car.linear_velocity.z).normalized()
-		var input_vector_normalized = input_vector.normalized()
-		var angle = acos(linear_velocity_normalized.dot(input_vector_normalized))
-
-		var linear_velocity_3d = Vector3(linear_velocity_normalized.x, linear_velocity_normalized.y, 0)
-		var input_vector_3d = Vector3(input_vector_normalized.x, input_vector_normalized.y, 0)
-		var cross_product_z = linear_velocity_3d.cross(input_vector_3d).z
-		var direction = 0
-
-		if cross_product_z > 0:
-			direction = 1  
-		elif cross_product_z < 0:
-			direction = -1 
-		else:
-			direction = 0  
-
-		var turn_angle = angle * direction
-		var wheel_turn_angle = turn_angle / -3
-		var car_tilt_angle = clamp(turn_angle * car.linear_velocity.length() / 40, -0.25, 0.25)
-
-		car_wheel_left.rotation.y = lerp(car_wheel_left.rotation.y, wheel_turn_angle, 4 * delta)
-		car_wheel_right.rotation.y = lerp(car_wheel_right.rotation.y, wheel_turn_angle, 4 * delta)
-		car_body.rotation.z = lerp(car_body.rotation.z, car_tilt_angle, 10 * delta)
-	else:
-		car_body.rotation.z = lerp(car_body.rotation.z, 0.0, 10 * delta)

@@ -18,6 +18,7 @@
 
 /* Begin PBXFileReference section */
 		353AF9052BD818F30047089B /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		354B07D92BE88A9500C39392 /* GodotVision */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GodotVision; path = "../GodotVision-for-car-game/GodotVision"; sourceTree = "<group>"; };
 		DE54EAAC2B3C75D500594A05 /* GodotVisionExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GodotVisionExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE54EAB32B3C75D500594A05 /* GodotVisionExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GodotVisionExample.swift; sourceTree = "<group>"; };
 		DE54EAB52B3C75D500594A05 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -42,6 +43,7 @@
 		DE54EAA32B3C75D500594A05 = {
 			isa = PBXGroup;
 			children = (
+				354B07D92BE88A9500C39392 /* GodotVision */,
 				DEF363EC2B57F443005E175D /* Godot_Project */,
 				DE54EAAE2B3C75D500594A05 /* GodotVisionExample */,
 				DE54EAAD2B3C75D500594A05 /* Products */,
@@ -429,7 +431,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kevinw/GodotVision.git";
 			requirement = {
-				branch = "controller-support";
+				branch = main;
 				kind = branch;
 			};
 		};

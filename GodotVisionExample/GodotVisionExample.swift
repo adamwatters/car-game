@@ -19,4 +19,4 @@ struct GodotVisionExample: App {
         .defaultSize(width: VOLUME_SIZE.x, height: VOLUME_SIZE.y, depth: VOLUME_SIZE.z, in: .meters)
     }
 }
-
+    

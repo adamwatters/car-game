@@ -44,10 +44,9 @@ struct ContentView: View {
                     }.padding(36).frame(width: 700).glassBackgroundEffect()
                 }
             }
-        }.onReceive(appState.$joystickPosition, perform: { multipeerJoystickPosition in
-            if let multipeerJoystickPosition = multipeerJoystickPosition {
-                godotVision.receivedMultipeerJoystick(multipeerJoystickPosition)
-            }
+        }
+        .onAppear(perform: {
+            appState.attachGodotVision(godotVision)
         })
         .modifier(GodotVisionRealityViewModifier(coordinator: godotVision))
     }

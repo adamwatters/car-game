@@ -7,6 +7,7 @@
 
 import MultipeerConnectivity
 import simd
+import GodotVision
 
 class AppState: NSObject, ObservableObject, MCSessionDelegate, MCNearbyServiceAdvertiserDelegate {
     
@@ -14,7 +15,8 @@ class AppState: NSObject, ObservableObject, MCSessionDelegate, MCNearbyServiceAd
     @Published var mcSession: MCSession
     var mcServiceAdvertiser: MCNearbyServiceAdvertiser
     var mcBrowser: MCBrowserViewController?
-    @Published var joystickPosition: simd_float2?
+    @Published var controllerRotation: Float?
+    var godotVision: GodotVisionCoordinator?
     
     override init() {
         var session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: MCEncryptionPreference.none)
@@ -23,6 +25,10 @@ class AppState: NSObject, ObservableObject, MCSessionDelegate, MCNearbyServiceAd
         super.init()
         mcSession.delegate = self
         mcServiceAdvertiser.delegate = self
+    }
+    
+    func attachGodotVision(_ coordinator: GodotVisionCoordinator) {
+        godotVision = coordinator
     }
     
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
@@ -46,17 +52,18 @@ class AppState: NSObject, ObservableObject, MCSessionDelegate, MCNearbyServiceAd
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        let x = data.prefix(upTo: 4).withUnsafeBytes({ bytes in
+        print(data.count)
+        let rotation = data.prefix(upTo: 4).withUnsafeBytes({ bytes in
             bytes.load(as: Float.self)
         })
-        let y = data.advanced(by: 4).withUnsafeBytes({ bytes in
-            bytes.load(as: Float.self)
+        let gasPressed = data.advanced(by: 4).prefix(upTo: 1).withUnsafeBytes({ bytes in
+            bytes.load(as: Bool.self)
         })
-        
-        
-        // how can we get this to Godot more directly?
-        DispatchQueue.main.async {
-            self.joystickPosition = simd_float2(x, y)
+        let brakePressed = data.advanced(by: 5).prefix(upTo: 1).withUnsafeBytes({ bytes in
+            bytes.load(as: Bool.self)
+        })
+        if let godotVision {
+            godotVision.receivedMultipeerInput(rotation, gasPressed, brakePressed)
         }
     }
     

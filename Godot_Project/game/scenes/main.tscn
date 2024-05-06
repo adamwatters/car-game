@@ -96,7 +96,7 @@ collision_mask = 0
 physics_material_override = SubResource("PhysicsMaterial_b4knc")
 
 [node name="car" parent="." instance=ExtResource("4_2yor3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -73.799, 9.03526, 0)
+transform = Transform3D(0.0824255, 0, -0.996597, 0, 1, 0, 0.996597, 0, 0.0824255, 3.45897, 4.53457, 30.3615)
 
 [node name="ramp" parent="." instance=ExtResource("5_6l1ny")]
 transform = Transform3D(0.0636615, 0, -0.997972, 0, 1, 0, 0.997972, 0, 0.0636615, -27.8483, -0.839218, -8.39745)
@@ -106,18 +106,18 @@ collision_mask = 0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13274, 6.01056, 30.5389)
 
 [node name="checkpoint" parent="start" instance=ExtResource("6_0xtaa")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.65059, 0)
+transform = Transform3D(0.0104194, 0, -0.999946, 0, 1, 0, 0.999946, 0, 0.0104194, 0, -2.98724, 0.150635)
 order_index = 3
 
 [node name="checkpoint" parent="." instance=ExtResource("6_0xtaa")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.448, 3.81207, -27.2322)
+transform = Transform3D(-0.957269, 0, 0.289199, 0, 1, 0, -0.289199, 0, -0.957269, -29.9371, 3.81207, -27.2322)
 
 [node name="checkpoint2" parent="." instance=ExtResource("6_0xtaa")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.1484, 3.81207, -18.615)
+transform = Transform3D(0.996205, 0, -0.087034, 0, 1, 0, 0.087034, 0, 0.996205, 34.5391, 3.24948, -19.4157)
 order_index = 1
 
 [node name="checkpoint3" parent="." instance=ExtResource("6_0xtaa")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.1544, 7.41685, 19.1474)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.8706, 6.90546, 19.1474)
 order_index = 2
 
 [node name="reset_button" parent="." instance=ExtResource("7_m7myl")]
@@ -135,3 +135,5 @@ skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="track-5"]
 shape = SubResource("ConcavePolygonShape3D_gyiv1")
+
+[editable path="VisionVolumeCamera"]
