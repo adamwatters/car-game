@@ -8,6 +8,8 @@ extends Node3D
 @onready var car_wheel_right: MeshInstance3D = $car_mesh/car_mesh_inner/ambulance/wheel_frontRight
 @onready var ground_ray: RayCast3D = $car_mesh/car_mesh_inner/ground_ray
 
+var initial_global_position: Vector3 = Vector3.ZERO
+
 var look_at_target_y_offset := 0.0
 var lerped_linear_velocity := Vector3(0,0,0)
 
@@ -25,6 +27,7 @@ func align_with_y(xform, new_y):
 	return xform
 
 func _ready():
+	initial_global_position = car.global_position
 	ground_ray.add_exception(car)
 
 # Engine power
@@ -114,5 +117,8 @@ func _physics_process(delta):
 			central_force += car_mesh.global_basis.z * 1 * breaking_power
 		car.apply_central_force(central_force)
 		
+	# Rescue the car if it falls off the cliff.
+	if car.global_position.y < -15:
+		go_to_position(initial_global_position)
 
 
