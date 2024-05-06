@@ -20,7 +20,7 @@ func go_to_position(new_position: Vector3):
 	car.global_position = new_position
 	#car.freeze = false
 
-func align_with_y(xform, new_y):
+func align_with_y(xform: Transform3D, new_y: Vector3) -> Transform3D:
 	xform.basis.y = new_y
 	xform.basis.x = -xform.basis.z.cross(new_y)
 	xform.basis = xform.basis.orthonormalized()
@@ -35,7 +35,7 @@ const engine_power := 15
 const breaking_power := 5
 
 # Turn amount, in degrees
-const max_steering_angle := 40
+const max_steering_angle: float = 40
 # How quickly the car turns
 const turn_speed := 2
 # Below this speed, the car doesn't turn
@@ -43,7 +43,7 @@ const turn_stop_limit := 0.75
 
 var is_accelerating := false
 var is_breaking := false
-var steering_angle := 0
+var steering_angle: float = 0
 
 func _process(delta):
 	
@@ -52,7 +52,7 @@ func _process(delta):
 	
 	is_accelerating = Input.is_action_pressed("ui_select")
 	is_breaking = Input.is_action_pressed("ui_accept")	
-	var turn_input = -1 * Input.get_action_strength("ui_left") + Input.get_action_strength("ui_right")
+	var turn_input: float = -1 * Input.get_action_strength("ui_left") + Input.get_action_strength("ui_right")
 	steering_angle = deg_to_rad(turn_input * max_steering_angle)
 	
 	# -------------------
@@ -80,8 +80,10 @@ func _process(delta):
 	car_body.global_basis = Basis(slerped_quat)
 	# -------------------
 	
-func _physics_process(delta):
+func _physics_process(delta: float):
 	car_mesh.global_position = car.global_position
+	
+	var is_on_ground = ground_ray.is_colliding()
 	
 	# -------------------
 	# turn the car mesh
@@ -99,7 +101,7 @@ func _physics_process(delta):
 	#if not x_z_linear_velocity.is_zero_approx():
 		#car_mesh.look_at(car_mesh.global_position + x_z_linear_velocity) # do this with basis
 	
-	var is_on_ground = ground_ray.is_colliding()
+
 	
 	if is_on_ground:
 		var central_force = Vector3(0,0,0)
