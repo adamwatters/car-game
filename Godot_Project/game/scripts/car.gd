@@ -92,7 +92,9 @@ func _process(delta):
 	car_body_parent.global_basis = Basis(slerped_quat)
 	# -------------------
 	
-	engine_sound.pitch_scale = 1.0 + car.linear_velocity.length()
+	var xz_velocity = car.linear_velocity
+	xz_velocity.y = 0
+	engine_sound.pitch_scale = 1.0 + xz_velocity.length()
 	
 func _physics_process(delta: float):
 	car_mesh.global_position = car.global_position
