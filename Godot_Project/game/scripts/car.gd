@@ -3,6 +3,7 @@ extends Node3D
 @onready var car: RigidBody3D = $car_physics
 @onready var car_mesh: Node3D = $car_mesh
 @onready var car_mesh_inner: Node3D = $car_mesh/car_mesh_inner
+@onready var car_body_parent: Node3D = $car_mesh/car_mesh_inner/ambulance
 @onready var car_body: MeshInstance3D = $car_mesh/car_mesh_inner/ambulance/body
 @onready var car_wheel_left: MeshInstance3D = $car_mesh/car_mesh_inner/ambulance/wheel_frontLeft
 @onready var car_wheel_right: MeshInstance3D = $car_mesh/car_mesh_inner/ambulance/wheel_frontRight
@@ -45,6 +46,8 @@ var is_accelerating := false
 var is_breaking := false
 var steering_angle: float = 0
 
+var ground_angle := 0.0
+
 func _process(delta):
 	
 	# -------------------
@@ -74,10 +77,17 @@ func _process(delta):
 	
 	# car.linear_velocity.length() maxes out around 200
 	var tilt_angle = steering_angle * clamp(car.linear_velocity.length_squared() / 400, 0, 0.25)
-	var base_rotation = car_body.global_basis.get_rotation_quaternion()
-	var target_rotation = car_mesh.global_basis.rotated(car_mesh.global_basis.z, tilt_angle).get_rotation_quaternion()
+	var base_rotation = car_body_parent.global_basis.get_rotation_quaternion()
+
+	# include tilt left and right as you turn
+	var target_basis = car_mesh.global_basis.rotated(car_mesh.global_basis.z, tilt_angle)
+
+	# include tilt forward and backwards based on the ground collision normal
+	target_basis = target_basis.rotated(car_mesh.global_basis.x, ground_angle)
+
+	var target_rotation = target_basis.get_rotation_quaternion()
 	var slerped_quat = base_rotation.slerp(target_rotation, delta * 8).normalized()
-	car_body.global_basis = Basis(slerped_quat)
+	car_body_parent.global_basis = Basis(slerped_quat)
 	# -------------------
 	
 func _physics_process(delta: float):
@@ -118,6 +128,8 @@ func _physics_process(delta: float):
 		if is_breaking:
 			central_force += car_mesh.global_basis.z * 1 * breaking_power
 		car.apply_central_force(central_force)
+
+		ground_angle = -ground_ray.get_collision_normal().signed_angle_to(Vector3.UP, car_mesh.global_basis.x)
 		
 	# Rescue the car if it falls off the cliff.
 	if car.global_position.y < -15:
