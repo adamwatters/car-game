@@ -19,7 +19,7 @@ class AppState: NSObject, ObservableObject, MCSessionDelegate, MCNearbyServiceAd
     var godotVision: GodotVisionCoordinator?
     
     override init() {
-        var session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: MCEncryptionPreference.none)
+        let session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: MCEncryptionPreference.none)
         self.mcSession = session
         self.mcServiceAdvertiser = MCNearbyServiceAdvertiser(peer: peerID, discoveryInfo: nil, serviceType: "godot")
         super.init()
@@ -62,9 +62,7 @@ class AppState: NSObject, ObservableObject, MCSessionDelegate, MCNearbyServiceAd
         let brakePressed = data.advanced(by: 5).prefix(upTo: 1).withUnsafeBytes({ bytes in
             bytes.load(as: Bool.self)
         })
-        if let godotVision {
-            godotVision.receivedMultipeerInput(rotation, gasPressed, brakePressed)
-        }
+        receivedMultipeerInput(rotation, gasPressed, brakePressed)
     }
     
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
@@ -77,5 +75,30 @@ class AppState: NSObject, ObservableObject, MCSessionDelegate, MCNearbyServiceAd
     
     func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
         print("resource finished")
+    }
+}
+
+import class SwiftGodot.Input
+
+func receivedMultipeerInput(_ iphoneControllerRotation: Float?, _ buttonOnePressed: Bool, _ buttonTwoPressed: Bool) {
+    if let iphoneControllerRotation  {
+        let rotation = Double(iphoneControllerRotation)
+        if rotation > 0 {
+            SwiftGodot.Input.actionRelease(action: "ui_left")
+            SwiftGodot.Input.actionPress(action:"ui_right", strength: rotation)
+        } else {
+            SwiftGodot.Input.actionRelease(action: "ui_right")
+            SwiftGodot.Input.actionPress(action:"ui_left", strength: Swift.abs(rotation))
+        }
+        if buttonOnePressed {
+            SwiftGodot.Input.actionPress(action: "ui_accept")
+        } else {
+            SwiftGodot.Input.actionRelease(action: "ui_accept")
+        }
+        if buttonTwoPressed {
+            SwiftGodot.Input.actionPress(action: "ui_select")
+        } else {
+            SwiftGodot.Input.actionRelease(action: "ui_select")
+        }
     }
 }
