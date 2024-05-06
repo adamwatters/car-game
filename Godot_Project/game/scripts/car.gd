@@ -83,7 +83,10 @@ func _physics_process(delta):
 	# -------------------
 	# turn the car mesh
 	
-	car_mesh.look_at(car_mesh.global_position + (car.linear_velocity * Vector3(1,0,1) ))
+	var look_at_dir: Vector3 = car.linear_velocity * Vector3(1, 0, 1)
+	if look_at_dir.length() > 0.0001:	
+		car_mesh.look_at(car_mesh.global_position + look_at_dir)
+		
 	# -------------------
 	
 	
