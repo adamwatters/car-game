@@ -4,7 +4,11 @@ import SwiftUI
 import RealityKit
 import GodotVision
 
+
 struct ContentView: View {
+    var scale: Float = 1
+    var offset: simd_float3 = .zero
+
     @EnvironmentObject var appState: AppState
     @StateObject private var godotVision = GodotVisionCoordinator()
     @Environment(\.openWindow) private var openWindow
@@ -18,7 +22,9 @@ struct ContentView: View {
                 let rkEntityGodotRoot = godotVision.setupRealityKitScene(content,
                                                                          volumeSize: VOLUME_SIZE,
                                                                          projectFileDir: pathToGodotProject)
-                
+                godotVision.extraScale = scale
+                godotVision.extraOffset = offset
+
                 print("Godot scene root: \(rkEntityGodotRoot)")
                 if let uiPanel = attachments.entity(for: "ui_panel") {
                     content.add(uiPanel)
