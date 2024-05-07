@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://vts2xl0t0xub"]
+[gd_scene load_steps=18 format=3 uid="uid://vts2xl0t0xub"]
 
 [ext_resource type="Script" path="res://game/scripts/main.gd" id="1_wijai"]
 [ext_resource type="PackedScene" uid="uid://biunegs8tkvn0" path="res://addons/godot_vision/VisionVolumeCamera.tscn" id="2_782u8"]
@@ -8,7 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://xfgc18qj8upx" path="res://game/scenes/checkpoint.tscn" id="6_0xtaa"]
 [ext_resource type="PackedScene" uid="uid://bcenn14raunpo" path="res://game/scenes/reset_button.tscn" id="7_m7myl"]
 [ext_resource type="PackedScene" uid="uid://cx7ttumhl2kag" path="res://game/scenes/timer.tscn" id="8_yagke"]
+[ext_resource type="PackedScene" uid="uid://8r63uacseh1o" path="res://game/models/cow.glb" id="9_l0wny"]
 [ext_resource type="PackedScene" uid="uid://dn2uiclrpjnrk" path="res://game/scenes/grass_scatter.tscn" id="9_ssuod"]
+[ext_resource type="PackedScene" uid="uid://clfyyb5smmnti" path="res://game/models/cow_bigger.glb" id="10_xiool"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_b4knc"]
 
@@ -140,5 +142,14 @@ shape = SubResource("ConcavePolygonShape3D_gyiv1")
 
 [node name="grass scatter" parent="." instance=ExtResource("9_ssuod")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="cow" parent="." instance=ExtResource("9_l0wny")]
+transform = Transform3D(-0.268718, 0, -0.963219, 0, 1, 0, 0.963219, 0, -0.268718, 4.69831, 3.36848, 24.2587)
+
+[node name="cow2" parent="." instance=ExtResource("9_l0wny")]
+transform = Transform3D(0.343135, 0, -0.939286, 0, 1, 0, 0.939286, 0, 0.343135, 2.67361, 3.36848, 24.2587)
+
+[node name="cow_bigger" parent="." instance=ExtResource("10_xiool")]
+transform = Transform3D(-0.478585, 0, -0.878041, 0, 1, 0, 0.878041, 0, -0.478585, 6.24321, 3.36848, 24.7922)
 
 [editable path="VisionVolumeCamera"]
