@@ -7,3 +7,4 @@ build/
 GodotVisionExample.xcodeproj/project.xcworkspace/xcuserdata/*
 GodotVisionExample.xcodeproj/xcuserdata/*.xcuserdatad
 GodotVision/
+GodotVisionExample.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
