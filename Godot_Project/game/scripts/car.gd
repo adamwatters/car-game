@@ -9,7 +9,7 @@ extends Node3D
 @onready var car_wheel_right: MeshInstance3D = $car_mesh/car_mesh_inner/ambulance/wheel_frontRight
 @onready var ground_ray: RayCast3D = $car_mesh/car_mesh_inner/ground_ray
 
-@onready var engine_sound: AudioStreamPlayer3D = $engine_sound
+@onready var engine_sound: AudioStreamPlayer3D = $car_mesh/car_mesh_inner/engine_sound
 
 var initial_global_position: Vector3 = Vector3.ZERO
 
@@ -92,9 +92,9 @@ func _process(delta):
 	car_body_parent.global_basis = Basis(slerped_quat)
 	# -------------------
 	
-	var xz_velocity = car.linear_velocity
-	xz_velocity.y = 0
-	engine_sound.pitch_scale = 1.0 + xz_velocity.length()
+	var target_pitch_scale = 4.0 if is_accelerating else 0.8
+	const PITCH_CHANGE_SPEED: float = 2.55
+	engine_sound.pitch_scale = move_toward(engine_sound.pitch_scale, target_pitch_scale, delta * PITCH_CHANGE_SPEED)
 	
 func _physics_process(delta: float):
 	car_mesh.global_position = car.global_position
@@ -105,19 +105,13 @@ func _physics_process(delta: float):
 	# turn the car mesh
 	
 	var look_at_dir: Vector3 = car.linear_velocity * Vector3(1, 0, 1)
-	if look_at_dir.length() > 0.0001:	
+	if look_at_dir.length() > 0.001:	
 		car_mesh.look_at(car_mesh.global_position + look_at_dir)
 		
 	# -------------------
 	
-	
 	var x_z_linear_velocity = car.linear_velocity
 	x_z_linear_velocity.y = 0
-	
-	#if not x_z_linear_velocity.is_zero_approx():
-		#car_mesh.look_at(car_mesh.global_position + x_z_linear_velocity) # do this with basis
-	
-
 	
 	if is_on_ground:
 		var central_force = Vector3(0,0,0)
