@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://vts2xl0t0xub"]
+[gd_scene load_steps=16 format=3 uid="uid://vts2xl0t0xub"]
 
 [ext_resource type="Script" path="res://game/scripts/main.gd" id="1_wijai"]
 [ext_resource type="PackedScene" uid="uid://biunegs8tkvn0" path="res://addons/godot_vision/VisionVolumeCamera.tscn" id="2_782u8"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://xfgc18qj8upx" path="res://game/scenes/checkpoint.tscn" id="6_0xtaa"]
 [ext_resource type="PackedScene" uid="uid://bcenn14raunpo" path="res://game/scenes/reset_button.tscn" id="7_m7myl"]
 [ext_resource type="PackedScene" uid="uid://cx7ttumhl2kag" path="res://game/scenes/timer.tscn" id="8_yagke"]
+[ext_resource type="PackedScene" uid="uid://dn2uiclrpjnrk" path="res://game/scenes/grass_scatter.tscn" id="9_ssuod"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_b4knc"]
 
@@ -128,6 +129,7 @@ transform = Transform3D(1.45674, 0.790177, -1.11961, -1.72205e-16, 1.63403, 1.15
 
 [node name="track-5" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.38521, 0)
+collision_layer = 513
 
 [node name="road" type="MeshInstance3D" parent="track-5"]
 mesh = SubResource("ArrayMesh_dj36a")
@@ -135,5 +137,8 @@ skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="track-5"]
 shape = SubResource("ConcavePolygonShape3D_gyiv1")
+
+[node name="grass scatter" parent="." instance=ExtResource("9_ssuod")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [editable path="VisionVolumeCamera"]
