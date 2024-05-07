@@ -45,9 +45,6 @@ struct ContentView: View {
                 }
             }
         }
-        .onAppear(perform: {
-            appState.attachGodotVision(godotVision)
-        })
         .modifier(GodotVisionRealityViewModifier(coordinator: godotVision))
     }
         
