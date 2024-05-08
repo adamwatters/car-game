@@ -1352,3 +1352,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, -1, 0.5, 0.3, -1.01)
 visible = false
 mesh = SubResource("ArrayMesh_g5kwb")
 skeleton = NodePath("")
+
+[node name="cpu_brain" type="Node3D" parent="."]
+process_mode = 4
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="cpu_brain"]
+navigation_layers = 768
+avoidance_enabled = true
+debug_enabled = true

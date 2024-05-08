@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://vts2xl0t0xub"]
+[gd_scene load_steps=22 format=3 uid="uid://vts2xl0t0xub"]
 
 [ext_resource type="Script" path="res://game/scripts/main.gd" id="1_wijai"]
 [ext_resource type="PackedScene" uid="uid://biunegs8tkvn0" path="res://addons/godot_vision/VisionVolumeCamera.tscn" id="2_782u8"]
@@ -7,7 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://d28y24tqdgu7a" path="res://game/scenes/ramp.tscn" id="5_6l1ny"]
 [ext_resource type="PackedScene" uid="uid://xfgc18qj8upx" path="res://game/scenes/checkpoint.tscn" id="6_0xtaa"]
 [ext_resource type="PackedScene" uid="uid://bcenn14raunpo" path="res://game/scenes/reset_button.tscn" id="7_m7myl"]
+[ext_resource type="NavigationMesh" uid="uid://cmygeqqj53p3p" path="res://game/scenes/track-5-navmesh.tres" id="8_qao7i"]
 [ext_resource type="PackedScene" uid="uid://cx7ttumhl2kag" path="res://game/scenes/timer.tscn" id="8_yagke"]
+[ext_resource type="Curve3D" uid="uid://pbbyek4rmqnu" path="res://game/scenes/track-5-path.tres" id="9_6dld0"]
 [ext_resource type="PackedScene" uid="uid://8r63uacseh1o" path="res://game/models/cow.glb" id="9_l0wny"]
 [ext_resource type="PackedScene" uid="uid://dn2uiclrpjnrk" path="res://game/scenes/grass_scatter.tscn" id="9_ssuod"]
 [ext_resource type="PackedScene" uid="uid://clfyyb5smmnti" path="res://game/models/cow_bigger.glb" id="10_xiool"]
@@ -123,9 +125,9 @@ script = ExtResource("1_wijai")
 [node name="VisionVolumeCamera" parent="." instance=ExtResource("2_782u8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 24.8029, 0)
 
-[node name="ground" parent="." instance=ExtResource("3_1k7qb")]
-collision_mask = 0
-physics_material_override = SubResource("PhysicsMaterial_b4knc")
+[node name="Camera3D" parent="VisionVolumeCamera" index="1"]
+transform = Transform3D(1, -6.15973e-16, 2.24196e-16, 4.38678e-16, 0.883005, 0.469363, -4.87082e-16, -0.469363, 0.883005, 2.08165e-12, -3.037, 51.15)
+fov = 78.0
 
 [node name="car" parent="." instance=ExtResource("4_2yor3")]
 transform = Transform3D(0.0824255, 0, -0.996597, 0, 1, 0, 0.996597, 0, 0.0824255, 3.45897, 4.53457, 30.3615)
@@ -166,18 +168,30 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.126, 5.28841, 37.4209)
 [node name="timer" parent="." instance=ExtResource("8_yagke")]
 transform = Transform3D(1.22215, -0.912873, 1.29346, -3.4129e-08, 1.63403, 1.15324, -1.58315, -0.704709, 0.998509, -35.2892, 4.45497, 33.6174)
 
-[node name="track-5" type="StaticBody3D" parent="."]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.38521, 0)
+navigation_mesh = ExtResource("8_qao7i")
+navigation_layers = 768
+
+[node name="ground" parent="NavigationRegion3D" instance=ExtResource("3_1k7qb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.01673, 0)
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_b4knc")
+
+[node name="track-5" type="StaticBody3D" parent="NavigationRegion3D"]
 collision_layer = 513
 
-[node name="road" type="MeshInstance3D" parent="track-5"]
+[node name="road" type="MeshInstance3D" parent="NavigationRegion3D/track-5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.223, -0.0167358, -0.216469)
 mesh = SubResource("ArrayMesh_dw54n")
 skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="track-5"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/track-5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.223, -0.0167358, -0.216469)
 shape = SubResource("ConcavePolygonShape3D_rop4l")
+
+[node name="track-5-path" type="Path3D" parent="NavigationRegion3D/track-5"]
+curve = ExtResource("9_6dld0")
 
 [node name="grass scatter" parent="." instance=ExtResource("9_ssuod")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)

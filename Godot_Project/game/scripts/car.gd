@@ -2,8 +2,7 @@ extends Node3D
 
 enum ControlledBy { player, cpu }
 
-@export var controlledBy: ControlledBy
-
+@export var controlledBy: ControlledBy = ControlledBy.player
 @onready var car: RigidBody3D = $car_physics
 @onready var car_mesh: Node3D = $car_mesh
 @onready var car_mesh_inner: Node3D = $car_mesh/car_mesh_inner
@@ -12,8 +11,20 @@ enum ControlledBy { player, cpu }
 @onready var car_wheel_left: MeshInstance3D = $car_mesh/car_mesh_inner/ambulance/wheel_frontLeft
 @onready var car_wheel_right: MeshInstance3D = $car_mesh/car_mesh_inner/ambulance/wheel_frontRight
 @onready var ground_ray: RayCast3D = $car_mesh/car_mesh_inner/ground_ray
-
 @onready var engine_sound: AudioStreamPlayer3D = $car_mesh/car_mesh_inner/engine_sound
+@onready var cpu_brain: Node3D = $cpu_brain
+
+var input: Car_Input = Car_Input.new()
+
+func start_cpu_driving():
+	while true:
+		await get_tree().create_timer(randf() * 3).timeout
+		input.accelerating = true
+		input.turn = randf() * 2 - 1
+		await get_tree().create_timer(randf() * 4).timeout
+		input.accelerating = false
+		input.turn = 0
+		await get_tree().create_timer(randf() * 2).timeout
 
 var initial_global_position: Vector3 = Vector3.ZERO
 
@@ -36,6 +47,12 @@ func align_with_y(xform: Transform3D, new_y: Vector3) -> Transform3D:
 func _ready():
 	initial_global_position = car.global_position
 	ground_ray.add_exception(car)
+	
+	if controlledBy == ControlledBy.cpu:
+		cpu_brain.set_process(true)
+		start_cpu_driving()
+
+		
 
 # Engine power
 const engine_power := 15
@@ -48,8 +65,7 @@ const turn_speed := 2
 # Below this speed, the car doesn't turn
 const turn_stop_limit := 0.75
 
-var is_accelerating := false
-var is_breaking := false
+
 var steering_angle: float = 0
 
 var ground_angle := 0.0
@@ -59,18 +75,16 @@ func _process(delta):
 	# -------------------
 	# capture input
 	
-	var turn_input: float = 0
-	
 	match controlledBy:
 		ControlledBy.player:
-			is_accelerating = Input.is_action_pressed("ui_select") or Input.is_action_pressed("accelerate")
-			is_breaking = Input.is_action_pressed("ui_accept") or Input.is_action_pressed("brake")
-			turn_input = -1 * Input.get_action_strength("ui_left") + Input.get_action_strength("ui_right")
-			turn_input += -1 * Input.get_action_strength("turn_left") + Input.get_action_strength("turn_right")
+			input.accelerating = Input.is_action_pressed("ui_select") or Input.is_action_pressed("accelerate")
+			input.braking = Input.is_action_pressed("ui_accept") or Input.is_action_pressed("brake")
+			input.turn = -1 * Input.get_action_strength("ui_left") + Input.get_action_strength("ui_right")
+			input.turn += -1 * Input.get_action_strength("turn_left") + Input.get_action_strength("turn_right")
 		ControlledBy.cpu:
-			pass
-	
-	turn_input = clamp(turn_input, -1, 1)
+			pass # see start_cpu_driving above
+			
+	var turn_input: float = clamp(input.turn, -1, 1)
 	steering_angle = deg_to_rad(turn_input * max_steering_angle)
 	
 	# -------------------
@@ -105,7 +119,7 @@ func _process(delta):
 	car_body_parent.global_basis = Basis(slerped_quat)
 	# -------------------
 	
-	var target_pitch_scale = 4.0 if is_accelerating else 0.8
+	var target_pitch_scale = 4.0 if input.accelerating else 0.8
 	const PITCH_CHANGE_SPEED: float = 2.55
 	engine_sound.pitch_scale = move_toward(engine_sound.pitch_scale, target_pitch_scale, delta * PITCH_CHANGE_SPEED)
 	
@@ -135,10 +149,10 @@ func _physics_process(delta: float):
 		var rotated_linear_velocity = car.linear_velocity.rotated(car_mesh.global_basis.y.normalized(), adjusted_stearing_angle * -1)
 		car.linear_velocity = car.linear_velocity.slerp(rotated_linear_velocity, delta * 2)
 		
-		if is_accelerating:
+		if input.accelerating:
 			central_force += car_mesh.global_basis.z * -1 * engine_power
 			#central_force += car_mesh.global_basis.rotated(car_mesh.global_basis.y, steering_angle * -1).z * -1 * engine_power
-		if is_breaking:
+		if input.braking:
 			central_force += car_mesh.global_basis.z * 1 * breaking_power
 		car.apply_central_force(central_force)
 
