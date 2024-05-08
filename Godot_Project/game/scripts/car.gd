@@ -55,9 +55,11 @@ func _process(delta):
 	# -------------------
 	# capture input
 	
-	is_accelerating = Input.is_action_pressed("ui_select")
+	is_accelerating = Input.is_action_pressed("ui_select") or Input.is_action_pressed("accelerate")
 	is_breaking = Input.is_action_pressed("ui_accept")	
 	var turn_input: float = -1 * Input.get_action_strength("ui_left") + Input.get_action_strength("ui_right")
+	turn_input += -1 * Input.get_action_strength("turn_left") + Input.get_action_strength("turn_right")
+	turn_input = clamp(turn_input, -1, 1)
 	steering_angle = deg_to_rad(turn_input * max_steering_angle)
 	
 	# -------------------
