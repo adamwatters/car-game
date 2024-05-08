@@ -2,7 +2,7 @@ extends Node3D
 
 @onready var car = $car
 @onready var start = $start
-@onready var timer = $timer
+@onready var timer = $balloon/timer
 
 var checkpoints: Array[Node] = []
 var next_checkpoint_index: int
