@@ -130,6 +130,14 @@ physics_material_override = SubResource("PhysicsMaterial_b4knc")
 [node name="car" parent="." instance=ExtResource("4_2yor3")]
 transform = Transform3D(0.0824255, 0, -0.996597, 0, 1, 0, 0.996597, 0, 0.0824255, 3.45897, 4.53457, 30.3615)
 
+[node name="cpu_car1" parent="." instance=ExtResource("4_2yor3")]
+transform = Transform3D(0.0824255, 0, -0.996597, 0, 1, 0, 0.996597, 0, 0.0824255, 3.45897, 4.53457, 27.9414)
+controlledBy = 1
+
+[node name="cpu_car2" parent="." instance=ExtResource("4_2yor3")]
+transform = Transform3D(0.0824255, 0, -0.996597, 0, 1, 0, 0.996597, 0, 0.0824255, 3.45897, 4.53457, 33.3133)
+controlledBy = 1
+
 [node name="ramp" parent="." instance=ExtResource("5_6l1ny")]
 transform = Transform3D(0.998084, 0, 0.0618848, 0, 1, 0, -0.0618848, 0, 0.998084, -27.3811, 3.507, -8.39745)
 collision_mask = 0

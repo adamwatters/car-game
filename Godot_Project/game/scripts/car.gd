@@ -1,5 +1,9 @@
 extends Node3D
 
+enum ControlledBy { player, cpu }
+
+@export var controlledBy: ControlledBy
+
 @onready var car: RigidBody3D = $car_physics
 @onready var car_mesh: Node3D = $car_mesh
 @onready var car_mesh_inner: Node3D = $car_mesh/car_mesh_inner
@@ -55,10 +59,17 @@ func _process(delta):
 	# -------------------
 	# capture input
 	
-	is_accelerating = Input.is_action_pressed("ui_select") or Input.is_action_pressed("accelerate")
-	is_breaking = Input.is_action_pressed("ui_accept")	
-	var turn_input: float = -1 * Input.get_action_strength("ui_left") + Input.get_action_strength("ui_right")
-	turn_input += -1 * Input.get_action_strength("turn_left") + Input.get_action_strength("turn_right")
+	var turn_input: float = 0
+	
+	match controlledBy:
+		ControlledBy.player:
+			is_accelerating = Input.is_action_pressed("ui_select") or Input.is_action_pressed("accelerate")
+			is_breaking = Input.is_action_pressed("ui_accept") or Input.is_action_pressed("brake")
+			turn_input = -1 * Input.get_action_strength("ui_left") + Input.get_action_strength("ui_right")
+			turn_input += -1 * Input.get_action_strength("turn_left") + Input.get_action_strength("turn_right")
+		ControlledBy.cpu:
+			pass
+	
 	turn_input = clamp(turn_input, -1, 1)
 	steering_angle = deg_to_rad(turn_input * max_steering_angle)
 	
