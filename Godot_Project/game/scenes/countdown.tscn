@@ -1,0 +1,73 @@
+[gd_scene load_steps=10 format=3 uid="uid://mirs3r4ano7j"]
+
+[ext_resource type="Script" path="res://game/scripts/countdown.gd" id="1_m7glh"]
+[ext_resource type="AudioStream" uid="uid://5ci6fokye68k" path="res://game/sounds/beep.mp3" id="2_xavmb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ubpkf"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="TextMesh" id="TextMesh_ddqal"]
+material = SubResource("StandardMaterial3D_ubpkf")
+text = "Ready"
+font_size = 120
+
+[sub_resource type="TextMesh" id="TextMesh_0asxg"]
+material = SubResource("StandardMaterial3D_ubpkf")
+text = "1
+"
+font_size = 120
+
+[sub_resource type="TextMesh" id="TextMesh_3fgtf"]
+material = SubResource("StandardMaterial3D_ubpkf")
+text = "2
+"
+font_size = 120
+
+[sub_resource type="TextMesh" id="TextMesh_kjoyj"]
+material = SubResource("StandardMaterial3D_ubpkf")
+text = "3"
+font_size = 120
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j60tl"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="TextMesh" id="TextMesh_syggh"]
+material = SubResource("StandardMaterial3D_j60tl")
+text = "GO!"
+font_size = 120
+
+[node name="countdown" type="Node3D"]
+script = ExtResource("1_m7glh")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="numbers" type="Node3D" parent="."]
+
+[node name="GO2" type="MeshInstance3D" parent="numbers"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+mesh = SubResource("TextMesh_ddqal")
+skeleton = NodePath("../..")
+
+[node name="1" type="MeshInstance3D" parent="numbers"]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 0, 0, 0)
+mesh = SubResource("TextMesh_0asxg")
+skeleton = NodePath("../..")
+
+[node name="2" type="MeshInstance3D" parent="numbers"]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 0, 0, 0)
+mesh = SubResource("TextMesh_3fgtf")
+skeleton = NodePath("../..")
+
+[node name="3" type="MeshInstance3D" parent="numbers"]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 0, 0, 0)
+mesh = SubResource("TextMesh_kjoyj")
+skeleton = NodePath("../..")
+
+[node name="GO" type="MeshInstance3D" parent="numbers"]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 0, 0, 0)
+mesh = SubResource("TextMesh_syggh")
+skeleton = NodePath("../..")
+
+[node name="beep_sound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_xavmb")
+pitch_scale = 2.0

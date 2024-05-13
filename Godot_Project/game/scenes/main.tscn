@@ -125,7 +125,7 @@ script = ExtResource("1_wijai")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 24.8029, 0)
 
 [node name="Camera3D" parent="VisionVolumeCamera" index="1"]
-transform = Transform3D(1, -6.15973e-16, 2.24196e-16, 4.38678e-16, 0.883005, 0.469363, -4.87082e-16, -0.469363, 0.883005, 2.08165e-12, -3.037, 51.15)
+transform = Transform3D(1, -6.15973e-16, 2.24197e-16, 4.38678e-16, 0.883005, 0.469363, -4.87082e-16, -0.469363, 0.883005, 0, -3.037, 78.6419)
 fov = 78.0
 
 [node name="car" parent="." instance=ExtResource("4_2yor3")]
