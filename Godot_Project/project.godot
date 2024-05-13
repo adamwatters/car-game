@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.2", "Mobile")
 [autoload]
 
 GodotVision="*res://addons/godot_vision/GodotVision_autoload.tscn"
+Global="*res://game/scripts/global.gd"
 
 [display]
 

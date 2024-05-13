@@ -2,13 +2,13 @@ extends Node3D
 
 @onready var car = $car
 @onready var start = $start
-@onready var timer = $balloon/timer
+@onready var timer = $balloon/balloon_inner/balloon_content/timer
 
 var checkpoints: Array[Node] = []
 var next_checkpoint_index: int
 
 func _setup():
-	pass
+	Global.setup_for_track(start)
 	#car.go_to_position(start.global_position)
 
 func _set_next_checkpoint(next_index: int):
