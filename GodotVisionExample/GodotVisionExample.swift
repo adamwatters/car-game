@@ -7,7 +7,7 @@ import SwiftUI
 // min for all dimensions is 0.24
 let VOLUME_SIZE = simd_double3(1.6, 0.941, 1.6)
 
-// #define IMMERSIVE_MODE
+
 
 @main
 struct GodotVisionExample: App {
@@ -15,7 +15,7 @@ struct GodotVisionExample: App {
     @State private var style: ImmersionStyle = .mixed
 
     var body: some Scene {
-        #if IMMERSIVE_MODE
+        #if false
         ImmersiveSpace {
             ContentView(scale: 0.1, offset: .init(0, 0.85, -0.9)).environmentObject(appState)
         }.immersionStyle(selection: $style, in: .mixed)

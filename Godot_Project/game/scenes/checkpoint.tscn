@@ -21,6 +21,7 @@ size = Vector3(2, 1, 0.1)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
 collision_layer = 4
 collision_mask = 2
+input_ray_pickable = false
 script = ExtResource("1_b2x6y")
 
 [node name="checkpoint_shape" type="CollisionShape3D" parent="."]

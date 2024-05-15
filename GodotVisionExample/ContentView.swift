@@ -10,6 +10,7 @@ struct ContentView: View {
     var offset: simd_float3 = .zero
 
     @EnvironmentObject var appState: AppState
+    @Environment(\.scenePhase) var scenePhase
     @StateObject private var godotVision = GodotVisionCoordinator()
     @Environment(\.openWindow) private var openWindow
     var body: some View {
@@ -28,7 +29,7 @@ struct ContentView: View {
                 print("Godot scene root: \(rkEntityGodotRoot)")
                 if let uiPanel = attachments.entity(for: "ui_panel") {
                     content.add(uiPanel)
-                    uiPanel.position = .init(0, Float(VOLUME_SIZE.y / -2 + 0.1), Float(VOLUME_SIZE.z / 2 - 0.01))
+                    uiPanel.position = .init(0, Float(VOLUME_SIZE.y / -2 + 0.08), Float(VOLUME_SIZE.z / 2 - 0.01))
                 }
             } update: { content, attachments in
                 // update called when SwiftUI @State in this ContentView changes. See docs for RealityView.
@@ -47,11 +48,33 @@ struct ContentView: View {
                         Button { appState.mcServiceAdvertiser.startAdvertisingPeer() } label: {
                             Text("Connect to iPhone")
                         }
+                        Button {
+                            godotVision.sceneTree?.paused.toggle()
+                            
+                        } label: {
+                            Text("Pause")
+                        }
                     }.padding(36).frame(width: 700).glassBackgroundEffect()
                 }
             }
         }
         .modifier(GodotVisionRealityViewModifier(coordinator: godotVision))
+        .onChange(of: scenePhase) {
+            let paused: Bool
+            switch scenePhase {
+            case .active:
+                paused = false
+            default:
+                paused = true
+            }
+            
+            if let sceneTree = godotVision.sceneTree {
+                if paused != sceneTree.paused {
+                    print(paused ? "PAUSE" : "UNPAUSE")
+                    sceneTree.paused = paused
+                }
+            }
+        }
     }
         
     @ViewBuilder
