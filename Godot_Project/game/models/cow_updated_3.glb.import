@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://3buchpcsqfmp"
-path="res://.godot/imported/cow_in_car.glb-63fbbff2df1c830e7cbf32e15da5c1e0.scn"
+uid="uid://bcfm20yk31y6o"
+path="res://.godot/imported/cow_updated_3.glb-31e4e6c41a6b5fd479a3f44d2773230f.scn"
 
 [deps]
 
-source_file="res://game/models/cow_in_car.glb"
-dest_files=["res://.godot/imported/cow_in_car.glb-63fbbff2df1c830e7cbf32e15da5c1e0.scn"]
+source_file="res://game/models/cow_updated_3.glb"
+dest_files=["res://.godot/imported/cow_updated_3.glb-31e4e6c41a6b5fd479a3f44d2773230f.scn"]
 
 [params]
 

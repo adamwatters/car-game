@@ -1,19 +1,20 @@
 extends Node3D
-
+class_name Car
 enum ControlledBy { player, cpu }
 
 @export var controlledBy: ControlledBy = ControlledBy.player
 @onready var car: RigidBody3D = $car_physics
 @onready var car_mesh: Node3D = $car_mesh
 @onready var car_mesh_inner: Node3D = $car_mesh/car_mesh_inner
-@onready var car_body_parent: Node3D = $car_mesh/car_mesh_inner/ambulance
-@onready var car_body: MeshInstance3D = $car_mesh/car_mesh_inner/ambulance/body
-@onready var car_wheel_left: MeshInstance3D = $car_mesh/car_mesh_inner/ambulance/wheel_frontLeft
-@onready var car_wheel_right: MeshInstance3D = $car_mesh/car_mesh_inner/ambulance/wheel_frontRight
+@onready var car_body_parent: Node3D = $car_mesh/car_mesh_inner/cow_in_car
+@onready var car_body: MeshInstance3D = $car_mesh/car_mesh_inner/cow_in_car/car
+@onready var car_wheel_left: MeshInstance3D = $car_mesh/car_mesh_inner/cow_in_car/wheel_front_left
+@onready var car_wheel_right: MeshInstance3D = $car_mesh/car_mesh_inner/cow_in_car/wheel_front_right
 @onready var ground_ray: RayCast3D = $car_mesh/car_mesh_inner/ground_ray
 @onready var engine_sound: AudioStreamPlayer3D = $car_mesh/car_mesh_inner/engine_sound
 @onready var cpu_brain: Node3D = $cpu_brain
 
+var locked = false
 var input: Car_Input = Car_Input.new()
 
 func start_cpu_driving():
@@ -44,9 +45,15 @@ func align_with_y(xform: Transform3D, new_y: Vector3) -> Transform3D:
 	xform.basis = xform.basis.orthonormalized()
 	return xform
 
+func _handle_game_state(state: Global.GAME_STATES):		
+	if state == Global.GAME_STATES.STARTED:
+		locked = false
+
 func _ready():
 	initial_global_position = car.global_position
 	ground_ray.add_exception(car)
+	
+	Global.game_state_set.connect(_handle_game_state)
 	
 	if controlledBy == ControlledBy.cpu:
 		cpu_brain.set_process(true)
@@ -75,6 +82,9 @@ func _process(delta):
 	# -------------------
 	# capture input
 	
+	if locked:
+		return
+	
 	match controlledBy:
 		ControlledBy.player:
 			input.accelerating = Input.is_action_pressed("ui_select") or Input.is_action_pressed("accelerate")
@@ -94,12 +104,12 @@ func _process(delta):
 	# left wheel has rotation in the model - so add PI below
 	var left_wheel_target_rotation = car_mesh.global_basis.rotated(car_mesh.global_basis.y, PI + steering_angle * -1).get_rotation_quaternion()
 	var left_wheel_slerped_quat = left_wheel_rotation.slerp(left_wheel_target_rotation, delta * 8).normalized()
-	car_wheel_left.global_basis = Basis(left_wheel_slerped_quat)
+	#car_wheel_left.global_basis = Basis(left_wheel_slerped_quat)
 	
 	var right_wheel_rotation = car_wheel_right.global_basis.get_rotation_quaternion()
 	var right_wheel_target_rotation = car_mesh.global_basis.rotated(car_mesh.global_basis.y, steering_angle * -1).get_rotation_quaternion()
 	var right_wheel_slerped_quat = right_wheel_rotation.slerp(right_wheel_target_rotation, delta * 8).normalized()
-	car_wheel_right.global_basis = Basis(right_wheel_slerped_quat)
+	#car_wheel_right.global_basis = Basis(right_wheel_slerped_quat)
 	
 	# -------------------
 	# tilt the body
@@ -125,6 +135,9 @@ func _process(delta):
 	
 func _physics_process(delta: float):
 	car_mesh.global_position = car.global_position
+	
+	if locked:
+		return
 	
 	var is_on_ground = ground_ray.is_colliding()
 	

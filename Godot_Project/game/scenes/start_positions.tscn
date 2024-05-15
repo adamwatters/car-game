@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://dhrmf4ouspljp"]
+
+[ext_resource type="Script" path="res://game/scripts/start_position.gd" id="1_mp1cu"]
+
+[node name="start_positions" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.19464, 3.62264, 30.8946)
+
+[node name="position_1" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 3.48787e-16, 1, 3.48787e-16, 1, -3.48787e-16, -1, 3.48787e-16, -4.37114e-08, 0, 0, 3)
+script = ExtResource("1_mp1cu")
+
+[node name="position_2" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 3.48787e-16, 1, 3.48787e-16, 1, -3.48787e-16, -1, 3.48787e-16, -4.37114e-08, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+script = ExtResource("1_mp1cu")
+
+[node name="position_3" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 3.48787e-16, 1, 3.48787e-16, 1, -3.48787e-16, -1, 3.48787e-16, -4.37114e-08, 2.08165e-12, 2.08165e-12, -3)
+script = ExtResource("1_mp1cu")
+
+[node name="position_4" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 3.48787e-16, 1, 3.48787e-16, 1, -3.48787e-16, -1, 3.48787e-16, -4.37114e-08, 4, 2.08165e-12, 1.5)
+script = ExtResource("1_mp1cu")
+
+[node name="position_5" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 3.48787e-16, 1, 3.48787e-16, 1, -3.48787e-16, -1, 3.48787e-16, -4.37114e-08, 4, 2.08165e-12, -1.5)
+script = ExtResource("1_mp1cu")
